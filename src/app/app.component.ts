@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { Post } from './post.model';
+import { BASE_URL } from 'src/utils/constants';
 
 @Component({
   selector: 'app-root',
@@ -20,10 +21,7 @@ export class AppComponent implements OnInit {
 
   onCreatePostClick(data: Post): void {
     this.http
-      .post(
-        'https://angular-9-section-18-http-req.firebaseio.com/posts.json',
-        data
-      )
+      .post<Post>(`${BASE_URL}/posts.json`, data)
       .subscribe(response => console.log(response));
   }
 
@@ -35,7 +33,7 @@ export class AppComponent implements OnInit {
 
   private fetchPosts(): void {
     this.http
-      .get('https://angular-9-section-18-http-req.firebaseio.com/posts.json')
+      .get<Post[]>(`${BASE_URL}/posts.json`)
       .pipe(
         map(response => {
           const posts: Post[] = [];

@@ -1,7 +1,5 @@
-export class Post {
-  constructor(
-    public id: string,
-    public title: string,
-    public content: string
-  ) {}
+export interface Post {
+  id?: string;
+  title: string;
+  content: string;
 }
