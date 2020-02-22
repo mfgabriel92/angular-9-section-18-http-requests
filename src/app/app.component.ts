@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 
 import { Post } from './post.model';
-import { BASE_URL } from 'src/utils/constants';
+import { PostService } from './post.service';
 
 @Component({
   selector: 'app-root',
@@ -14,45 +12,28 @@ export class AppComponent implements OnInit {
   posts: Post[] = [];
   isLoading = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private postService: PostService) {}
 
   ngOnInit(): void {
-    this.fetchPosts();
+    this.readPosts();
   }
 
-  onCreatePostClick(data: Post): void {
-    this.http
-      .post<Post>(`${BASE_URL}/posts.json`, data)
-      .subscribe(response => console.log(response));
+  onCreatePostClick(post: Post): void {
+    this.postService.store(post);
   }
 
   onFetchPostsClick(): void {
-    this.fetchPosts();
+    this.readPosts();
   }
 
   onClearPostsClick(): void {}
 
-  private fetchPosts(): void {
+  private readPosts(): void {
+    this.posts = [];
     this.isLoading = true;
-
-    this.http
-      .get<Post[]>(`${BASE_URL}/posts.json`)
-      .pipe(
-        map(response => {
-          const posts: Post[] = [];
-
-          for (const key in response) {
-            if (response.hasOwnProperty(key)) {
-              posts.push({ id: key, ...response[key] });
-            }
-          }
-
-          return posts;
-        })
-      )
-      .subscribe(response => {
-        this.isLoading = false;
-        this.posts = response;
-      });
+    this.postService.read().subscribe(response => {
+      this.isLoading = false;
+      this.posts = response;
+    });
   }
 }
