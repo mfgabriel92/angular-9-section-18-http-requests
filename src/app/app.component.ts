@@ -37,7 +37,9 @@ export class AppComponent implements OnInit {
 
   private readPosts(): void {
     this.posts = [];
+    this.error = null;
     this.isLoading = true;
+
     this.postService.read().subscribe(
       posts => {
         this.isLoading = false;
