@@ -17,7 +17,10 @@ export class AppComponent implements OnInit {
 
   onCreatePost(data: Post): void {
     this.http
-      .post('https://angular-9-section-18-http-req.firebaseio.com/', data)
+      .post(
+        'https://angular-9-section-18-http-req.firebaseio.com/posts.json',
+        data
+      )
       .subscribe(response => console.log(response));
   }
 
