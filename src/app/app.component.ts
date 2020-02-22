@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 import { Post } from './post.model';
 
@@ -35,6 +36,19 @@ export class AppComponent implements OnInit {
   private fetchPosts(): void {
     this.http
       .get('https://angular-9-section-18-http-req.firebaseio.com/posts.json')
+      .pipe(
+        map(response => {
+          const posts: Post[] = [];
+
+          for (const key in response) {
+            if (response.hasOwnProperty(key)) {
+              posts.push({ id: key, ...response[key] });
+            }
+          }
+
+          return posts;
+        })
+      )
       .subscribe(response => console.log(response));
   }
 }
