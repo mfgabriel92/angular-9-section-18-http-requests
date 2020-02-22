@@ -1,7 +1,7 @@
 <div class="container mt-3">
   <div class="row">
     <div class="col-8 m-auto">
-      <form #postForm="ngForm" (ngSubmit)="onCreatePost(postForm.value)">
+      <form #postForm="ngForm" (ngSubmit)="onCreatePostClick(postForm.value)">
         <div class="form-group">
           <label for="title">Title</label>
           <input
@@ -36,14 +36,14 @@
   <hr />
   <div class="row">
     <div class="col-8 m-auto">
-      <button class="btn btn-primary" (click)="onFetchPosts()">
+      <button class="btn btn-primary" (click)="onFetchPostsClick()">
         Fetch Posts
       </button>
       |
       <button
         class="btn btn-danger"
         [disabled]="posts.length < 1"
-        (click)="onClearPosts()"
+        (click)="onClearPostsClick()"
       >
         Clear Posts
       </button>

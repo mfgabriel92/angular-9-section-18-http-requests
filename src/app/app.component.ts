@@ -13,9 +13,11 @@ export class AppComponent implements OnInit {
 
   constructor(private http: HttpClient) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.fetchPosts();
+  }
 
-  onCreatePost(data: Post): void {
+  onCreatePostClick(data: Post): void {
     this.http
       .post(
         'https://angular-9-section-18-http-req.firebaseio.com/posts.json',
@@ -24,9 +26,15 @@ export class AppComponent implements OnInit {
       .subscribe(response => console.log(response));
   }
 
-  onFetchPosts(): Post[] {
-    return [];
+  onFetchPostsClick(): void {
+    this.fetchPosts();
   }
 
-  onClearPosts(): void {}
+  onClearPostsClick(): void {}
+
+  private fetchPosts(): void {
+    this.http
+      .get('https://angular-9-section-18-http-req.firebaseio.com/posts.json')
+      .subscribe(response => console.log(response));
+  }
 }
