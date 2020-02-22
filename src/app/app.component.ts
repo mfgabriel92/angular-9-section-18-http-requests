@@ -10,6 +10,7 @@ import { PostService } from './post.service';
 })
 export class AppComponent implements OnInit {
   posts: Post[] = [];
+  error: string = null;
   isLoading = false;
 
   constructor(private postService: PostService) {}
@@ -37,9 +38,15 @@ export class AppComponent implements OnInit {
   private readPosts(): void {
     this.posts = [];
     this.isLoading = true;
-    this.postService.read().subscribe(posts => {
-      this.isLoading = false;
-      this.posts = posts;
-    });
+    this.postService.read().subscribe(
+      posts => {
+        this.isLoading = false;
+        this.posts = posts;
+      },
+      ({ error }) => {
+        this.isLoading = false;
+        this.error = error.error;
+      }
+    );
   }
 }
