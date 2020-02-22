@@ -47,6 +47,6 @@ export class AppComponent implements OnInit {
           return posts;
         })
       )
-      .subscribe(response => console.log(response));
+      .subscribe(response => (this.posts = response));
   }
 }
