@@ -26,9 +26,11 @@ export class PostService {
     );
   }
 
-  store(post: Post) {
-    this.http
-      .post<Post>(`${BASE_URL}/posts.json`, post)
-      .subscribe(response => console.log(response));
+  store(post: Post): Observable<Post> {
+    return this.http.post<Post>(`${BASE_URL}/posts.json`, post);
+  }
+
+  delete(): Observable<object> {
+    return this.http.delete(`${BASE_URL}/posts.json`);
   }
 }

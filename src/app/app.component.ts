@@ -18,22 +18,28 @@ export class AppComponent implements OnInit {
     this.readPosts();
   }
 
-  onCreatePostClick(post: Post): void {
-    this.postService.store(post);
-  }
-
   onFetchPostsClick(): void {
     this.readPosts();
   }
 
-  onClearPostsClick(): void {}
+  onCreatePostClick(post: Post): void {
+    this.postService.store(post).subscribe(() => {
+      this.readPosts();
+    });
+  }
+
+  onDeletePostsClick(): void {
+    this.postService.delete().subscribe(() => {
+      this.posts = [];
+    });
+  }
 
   private readPosts(): void {
     this.posts = [];
     this.isLoading = true;
-    this.postService.read().subscribe(response => {
+    this.postService.read().subscribe(posts => {
       this.isLoading = false;
-      this.posts = response;
+      this.posts = posts;
     });
   }
 }
