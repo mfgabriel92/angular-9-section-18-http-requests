@@ -12,6 +12,7 @@ import { BASE_URL } from 'src/utils/constants';
 })
 export class AppComponent implements OnInit {
   posts: Post[] = [];
+  isLoading = false;
 
   constructor(private http: HttpClient) {}
 
@@ -32,6 +33,8 @@ export class AppComponent implements OnInit {
   onClearPostsClick(): void {}
 
   private fetchPosts(): void {
+    this.isLoading = true;
+
     this.http
       .get<Post[]>(`${BASE_URL}/posts.json`)
       .pipe(
@@ -47,6 +50,9 @@ export class AppComponent implements OnInit {
           return posts;
         })
       )
-      .subscribe(response => (this.posts = response));
+      .subscribe(response => {
+        this.isLoading = false;
+        this.posts = response;
+      });
   }
 }
